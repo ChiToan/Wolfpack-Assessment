@@ -1,3 +1,87 @@
+Wolfpack Assessment of Toan Luu
+------------
+This github assessment contains a RESTful API made with a basic Yii2 framework.
+Given that I have never worked with Yii2 before, this repository shows mostly what I already know in working with the Laravel.
+Due to the nature of this assessment and time free time, I have not added test cases and more error handling.
+Also there is no real documentation of the API within the code, so I will do it here.
+
+The relevant files I edited are as follows
+
+        config/
+            web.php
+        controllers/        
+            PackController.php
+            WolfController.php
+        migrations/
+            m200825_191012_wolf.php
+            m200830_143532_pack.php
+            m200830_150826_create_wolfPack_table.php
+        models/             
+            Pack.php
+            Wolf.php
+
+Models and Tables
+------------
+I decided to create two models: Wolf and Pack, with their tables respectively. For the relation between those two models, I decided to use a linking table, since it was not specified if a wolf can only be in one or more packs. So there is a many-to-many relation between Wolf and Pack. For the location of a Wolf, I decided to use latitude and longitude, since that is the most logical way to keep track of wolves' locations in the wilf, instead of using a address. As for gender, I decided to use a string, since the current definition of gender is a bit controversial.
+
+API Requests
+------------
+Given that you have a working database with the migrations correctly, the following API calls should work. Otherwise you would get an error that the tables do not exists or something in a similar fashion.
+Some remarks: 
+Most of the specific actions, such as updating locations and changing wolves in a pack, are done when updating the whole model itself with the PUT request.
+The ? before means that the parameter is optional.
+
+### WolfController
+
+    GET /wolves : Returns a list of all wolves with their attributes
+
+    GET /wolves/{wolf_id} : Returns a specific wolf with its attributes
+
+    POST /wolves : Creates a new wolf
+        Content-Type: application/x-www-form-urlencoded
+        Body:
+            name=(String) => Wolf
+            ?gender=(String) => Male
+            ?birthdate=(Date "yyyy-MM-dd") => 2020-12-01
+            ?latitude=(Number ##.###### in range(-90,90)) => 67.041324
+            ?longitude=(Number ###.###### in range(-180,180)) => -172.234233
+
+    PUT /wolves/{wolf_id} : Updates a exisiting wolf
+        Content-Type: application/x-www-form-urlencoded
+        Body:
+            ?name=(String)
+            ?gender=(String)
+            ?birthdate=(Date "yyyy-MM-dd")
+            ?latitude=(Number ##.###### in range(-90,90))
+            ?longitude=(Number ###.###### in range(-180,180))
+
+    DELETE /wolves/{wolf_id} : Deletes a specific wolf, given that it is not the only wolf in a pack
+
+### PackController
+
+    GET /packs : Returns a list of all packs with their attributes, including wolves
+
+    GET /packs/{pack_id} : Returns a specific pack with its attributes, including wolves
+
+    POST /packs : Creates new pack with one or more wolves
+        Content-Type: application/x-www-form-urlencoded
+        Body:
+            name=(String)
+            wolves=(String of wolf_ids separated by ',') => 2,63,23
+
+    PUT /packs/{wolf_id} : Updates existing pack
+        Content-Type: application/x-www-form-urlencoded
+        Body:
+            ?name=(String)
+            ?wolves= (String of wolf_ids separated by ',')
+
+    DELETE /packs/{pack_id} : Deletes a specific wolf, given that it is not the only wolf in a pack
+
+
+------------
+The following part of the readme is the default Yii2 basic template readme
+
+
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
