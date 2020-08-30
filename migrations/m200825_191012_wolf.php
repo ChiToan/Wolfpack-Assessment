@@ -1,7 +1,6 @@
 <?php
 
 use yii\db\Migration;
-use yii\db\Schema;
 
 /**
  * Class m200825_191012_wolf
@@ -20,24 +19,7 @@ class m200825_191012_wolf extends Migration
             'birthdate' => $this->date(),
             'latitude' => $this->double(6),
             'longitude' => $this->double(6),
-            'pack_id' => $this->integer(),
         ]);
-
-        $this->createIndex(
-            'idx-wolf-pack_id',
-            'wolf',
-            'pack_id'
-        );
-
-        $this->addForeignKey(
-            'fk-wolf-pack_id',
-            'wolf',
-            'pack_id',
-            'pack',
-            'id',
-            'CASCADE'
-        );
-
     }
 
     /**
@@ -45,14 +27,6 @@ class m200825_191012_wolf extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey(
-            'fk-wolf-pack_id',
-            'wolf'
-        );
-        $this->dropIndex(
-            'idx-wolf-pack_id',
-            'wolf'
-        );
         $this->dropTable('wolf');
     }
 

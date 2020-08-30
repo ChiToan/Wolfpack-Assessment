@@ -14,6 +14,8 @@ use yii\db\ActiveRecord;
  * @property integer $birthdate
  * @property double $latitude
  * @property double $longitude
+ * @property-read mixed $pack
+ * @property double $pack_id
  *
  *
  */
@@ -22,7 +24,8 @@ class Wolf extends ActiveRecord
 
     public function getPack()
     {
-        return $this->hasOne(Pack::class, ['pack_id' => 'id']);
+        return $this->hasMany(Pack::class, ['id' => 'pack_id'])
+            ->viaTable('wolfPack', ['wolf_id', 'id']);
     }
 
     public function rules()
