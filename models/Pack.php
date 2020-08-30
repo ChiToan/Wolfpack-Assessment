@@ -16,7 +16,7 @@ class Pack extends ActiveRecord
     public function getWolves()
     {
         return $this->hasMany(Wolf::class, ['id' => 'wolf_id'])
-            ->viaTable('wolfPack', ['pack_id', 'id']);
+            ->viaTable('wolfPack', ['pack_id' => 'id']);
     }
 
     public function rules()

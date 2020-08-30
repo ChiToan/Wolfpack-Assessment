@@ -17,8 +17,8 @@ class m200825_191012_wolf extends Migration
             'name' => $this->string()->notNull(),
             'gender' => $this->string(),
             'birthdate' => $this->date(),
-            'latitude' => $this->double(6),
-            'longitude' => $this->double(6),
+            'latitude' => $this->decimal(10,6),
+            'longitude' => $this->decimal(11,6),
         ]);
     }
 
