@@ -69,7 +69,7 @@ The ? before means that the parameter is optional.
             name=(String)
             wolves=(String of wolf_ids separated by ',') => 2,63,23
 
-    PUT /packs/{wolf_id} : Updates existing pack
+    PUT /packs/{pack_id} : Updates existing pack
         Content-Type: application/x-www-form-urlencoded
         Body:
             ?name=(String)
