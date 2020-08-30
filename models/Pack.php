@@ -13,6 +13,7 @@ use yii\db\ActiveRecord;
  */
 class Pack extends ActiveRecord
 {
+
     public function getWolves()
     {
         return $this->hasMany(Wolf::class, ['id' => 'wolf_id'])

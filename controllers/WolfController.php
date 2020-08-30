@@ -3,8 +3,10 @@
 namespace app\controllers;
 
 use app\models\Wolf;
+use Throwable;
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\db\StaleObjectException;
 use yii\rest\Controller;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
@@ -16,19 +18,23 @@ use yii\web\NotFoundHttpException;
 class WolfController extends Controller
 {
     /**
+     * View list of all wolves
+     *
      * @return array
      * @throws NotFoundHttpException
      */
     public function actionIndex()
     {
         $wolves = Wolf::find()->all();
-        if ($wolves === null) {
-            throw new NotFoundHttpException("Wolf not found");
+        if ($wolves === []) {
+            throw new NotFoundHttpException("No wolves found");
         }
         return $wolves;
     }
 
     /**
+     * View specific wolf
+     *
      * @param $id
      * @return Wolf
      * @throws NotFoundHttpException
@@ -44,26 +50,28 @@ class WolfController extends Controller
 
 
     /**
-     * @return array
+     * Create a new model with name
+     * other attributes are optional
+     *
+     * @return Wolf
      * @throws BadRequestHttpException|InvalidConfigException
      */
     public function actionCreate()
     {
         $bodyParams = Yii::$app->request->getBodyParams();
         // Check if name is defined, otherwise cancel wolf creation
-        if (!isset($bodyParams["name"])) {
-            throw new BadRequestHttpException("Missing body parameter: 'name' not defined.");
+        if (empty($bodyParams["name"])) {
+            throw new BadRequestHttpException("Missing body parameter: 'name' is empty.");
         }
         $wolf = new Wolf();
         $wolf = $this->setWolfParams($wolf, $bodyParams);
         $wolf->save();
-        return [
-            'message' => $wolf,
-            'code' => 201
-        ];
+        return $wolf;
     }
 
     /**
+     * Apply all the request body parameters to the model
+     *
      * @param Wolf $wolf
      * @param array $bodyParams
      * @return Wolf
@@ -71,26 +79,28 @@ class WolfController extends Controller
      */
     private function setWolfParams(Wolf $wolf, array $bodyParams)
     {
-        if (isset($bodyParams["name"])) {
+        if (!empty($bodyParams["name"])) {
             $wolf->name = $bodyParams["name"];
         }
-        if (isset($bodyParams["gender"])) {
+        if (!empty($bodyParams["gender"])) {
             $wolf->gender = $bodyParams["gender"];
         }
-        if (isset($bodyParams["birthdate"])) {
+        if (!empty($bodyParams["birthdate"])) {
             $wolf->birthdate = Yii::$app->formatter->asDate($bodyParams["birthdate"]);
         }
         // Round latitude and longitude to 6 decimal places
-        if (isset($bodyParams["latitude"])) {
+        if (!empty($bodyParams["latitude"])) {
             $wolf->latitude = number_format($bodyParams["latitude"], 6);
         }
-        if (isset($bodyParams["longitude"])) {
+        if (!empty($bodyParams["longitude"])) {
             $wolf->longitude = number_format($bodyParams["longitude"], 6);
         }
         return $wolf;
     }
 
     /**
+     * Update existing wolf
+     *
      * @param $id
      * @return Wolf
      * @throws NotFoundHttpException|InvalidConfigException
@@ -109,11 +119,13 @@ class WolfController extends Controller
     }
 
     /**
+     * Delete existing wolf
+     *
      * @param $id
      * @return array
      * @throws NotFoundHttpException
-     * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
+     * @throws Throwable
+     * @throws StaleObjectException
      */
     public function actionDelete($id)
     {
