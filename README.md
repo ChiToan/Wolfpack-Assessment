@@ -2,7 +2,7 @@ Wolfpack Assessment of Toan Luu
 ------------
 This github assessment contains a RESTful API made with a basic Yii2 framework.
 Given that I have never worked with Yii2 before, this repository shows mostly what I already know in working with the Laravel.
-Due to the nature of this assessment and time free time, I have not added test cases and more error handling.
+Due to the nature of this assessment and time free, I have not added test cases and more error handling.
 Also there is no real documentation of the API within the code, so I will do it here.
 
 The relevant files I edited are as follows
