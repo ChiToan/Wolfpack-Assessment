@@ -22,7 +22,7 @@ The relevant files I edited are as follows
 
 Models and Tables
 ------------
-I decided to create two models: Wolf and Pack, with their tables respectively. For the relation between those two models, I decided to use a linking table, since it was not specified if a wolf can only be in one or more packs. So there is a many-to-many relation between Wolf and Pack. For the location of a Wolf, I decided to use latitude and longitude, since that is the most logical way to keep track of wolves' locations in the wilf, instead of using a address. As for gender, I decided to use a string, since the current definition of gender is a bit controversial.
+I decided to create two models: Wolf and Pack, with their tables respectively. For the relation between those two models, I decided to use a linking table, since it was not specified if a wolf can only be in one or more packs. So there is a many-to-many relation between Wolf and Pack. For the location of a Wolf, I decided to use latitude and longitude, since that is the most logical way to keep track of wolves' locations in the wild, instead of using a address. As for gender, I decided to use a string, since the current definition of gender is a bit controversial.
 
 API Requests
 ------------
